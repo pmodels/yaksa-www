@@ -1,0 +1,24 @@
+---
+---
+
+@import 'jekyll-theme-architect';
+
+.btn {
+  border-radius: 10px;
+  background-color: #2879d0;
+  border: none;
+  color: white;
+  padding: 20px 10px;
+  cursor: pointer;
+  font-size: 20px;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  width: 100%;
+  margin-bottom: 20px;
+  -webkit-box-shadow: -2px -4px 23px -9px rgba(0,0,0,0.54);
+  -moz-box-shadow: -2px -4px 23px -9px rgba(0,0,0,0.54);
+  box-shadow: -2px -4px 23px -9px rgba(0,0,0,0.54);
+}
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: #173d7a;
+}

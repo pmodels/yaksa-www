@@ -1,37 +1,16 @@
-## Welcome to GitHub Pages
+## Yaksa
 
-You can use the [editor on GitHub](https://github.com/pmodels/yaksa-www/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+Yaksa is a high-performance datatype engine for expressing and
+manipulating data present in noncontiguous memory regions. Yaksa
+imitates parts of the MPI Datatype system, but adds additional
+functionality that would allow it to be used independent of MPI. It
+provides routines for packing/unpacking, creating I/O vectors (array
+of contiguous segments) and flattening/unflattening datatypes into
+process portable formats.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Yaksa's API includes supports for all of MPI datatypes, including
+vectors, indexed, block indexed, structure, subarray, resized,
+contiguous and dup'ed datatypes. It has built-in support for both
+basic and pair-type datatypes.
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/pmodels/yaksa-www/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Yaksa's backend includes support for CPUs as well as different GPUs.
