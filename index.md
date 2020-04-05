@@ -19,3 +19,10 @@ license](https://raw.githubusercontent.com/pmodels/yaksa/master/COPYRIGHT).
 It is a community-developed software that anyone can contribute to
 based on its [Contributor License
 Agreement](https://github.com/pmodels/yaksa/wiki/Yaksa-Contributor-License-Agreement).
+
+## Supported Platforms
+* All CPU architectures
+* NVIDIA GPU via CUDA
+
+## Yaksa Architecture
+<img src="images/yaksa-arch.svg" />

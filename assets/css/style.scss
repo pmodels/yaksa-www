@@ -3,22 +3,69 @@
 
 @import 'jekyll-theme-architect';
 
-.btn {
+.btn, .trivia {
   border-radius: 10px;
   background-color: #2879d0;
   border: none;
   color: white;
   padding: 20px 10px;
-  cursor: pointer;
-  font-size: 20px;
   font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  width: 100%;
   margin-bottom: 20px;
   -webkit-box-shadow: -2px -4px 23px -9px rgba(0,0,0,0.54);
   -moz-box-shadow: -2px -4px 23px -9px rgba(0,0,0,0.54);
   box-shadow: -2px -4px 23px -9px rgba(0,0,0,0.54);
 }
+
+.btn {
+  font-size: 20px;
+  width: 100%;
+  transition: 0.5s transform;
+  cursor: pointer;
+}
+
 /* Darker background on mouse-over */
 .btn:hover {
   background-color: #173d7a;
+  transform: scale(1.1);
+}
+
+.trivia {
+  background-color: #5d5b6a;
+  font-size: 16px;
+  width: 90%;
+}
+
+.trivia .trivia_content {
+  font-size: 14px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  padding-top: 10px;
+}
+
+.trivia_content {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+.trivia_icon {
+  padding-top: 10px;
+  text-align: center
+}
+
+.icon {
+  width: 10px;
+  padding-left: 2px;
+  padding-right: 2px;
+  cursor: pointer
 }
