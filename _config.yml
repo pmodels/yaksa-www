@@ -6,7 +6,7 @@ show_downloads: true
 github:
   repository_url: https://github.com/pmodels/yaksa
   repository_name: yaksa
-  is_project_page: false
+  is_project_page: true
   download_url: https://github.com/pmodels/yaksa/releases
   support_url: https://github.com/pmodels/yaksa/issues
   documentation_url: https://github.com/pmodels/yaksa/wiki
