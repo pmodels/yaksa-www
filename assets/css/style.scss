@@ -3,7 +3,13 @@
 
 @import 'jekyll-theme-architect';
 
-.btn, .trivia {
+h1 {
+  font-size: 24px !important;
+  font-weight: bold !important;
+  margin-bottom: 10px !important;
+}
+
+.btn, #trivia {
   border-radius: 10px;
   background-color: #2879d0;
   border: none;
@@ -29,23 +35,21 @@
   transform: scale(1.1);
 }
 
-.trivia {
+#trivia {
   background-color: #5d5b6a;
   font-size: 16px;
   width: 90%;
+
+  animation-name: fade;
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-duration: 1.5s;
 }
 
-.trivia .trivia_content {
+#trivia #trivia_content {
   font-size: 14px;
   font-family: 'Helvetica Neue', Helvetica, Arial, serif;
   padding-top: 10px;
-}
-
-.trivia_content {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
 }
 
 @-webkit-keyframes fade {
@@ -58,7 +62,7 @@
   to {opacity: 1}
 }
 
-.trivia_icon {
+#trivia_icon {
   padding-top: 10px;
   text-align: center
 }
@@ -68,4 +72,62 @@
   padding-left: 2px;
   padding-right: 2px;
   cursor: pointer
+}
+
+#yaksa_logo {
+  height: 150px
+}
+
+.btn_stack {
+  width: 100%;
+  text-align: center
+}
+
+.btn_stack button {
+  background-color: #E8E8E8;
+  border: 1px solid white;
+  color: black;
+  padding: 10px 24px;
+  cursor: pointer;
+  width: 80%;
+  display: block;
+  margin-left: 10%;
+  transition: 0.5s transform;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
+.btn_stack button:not(:last-child) {
+  border-bottom: none;
+}
+
+/* Add a background color on hover */
+.btn_stack button:hover {
+  opacity: 0.6;
+  transform: scale(1.1);
+}
+
+#table_doc, tr, td {
+  border: none;
+  border-collapse: collapse;
+}
+
+#table_doc tr {
+  width: 100%
+}
+
+#table_doc tr td {
+  width: 50%;
+  vertical-align: text-top;
+}
+
+#table_doc img {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 50px;
+}
+
+.title_doc {
+  font-size: 20px;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
 }

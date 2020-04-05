@@ -14,15 +14,40 @@ process-portable formats.
 
 Yaksa's backend includes support for CPUs as well as different GPUs.
 
-Yaksa is open-source and is distributed under the [BSD-3
-license](https://raw.githubusercontent.com/pmodels/yaksa/master/COPYRIGHT).
-It is a community-developed software that anyone can contribute to
-based on its [Contributor License
-Agreement](https://github.com/pmodels/yaksa/wiki/Yaksa-Contributor-License-Agreement).
+Yaksa is open-source and is distributed under the [BSD-3 license]({{
+site.github.license_url }}).  It is a community-developed software
+that anyone can contribute to based on its [Contributor License
+Agreement]({{ site.github.cla_url }}).
 
 ## Supported Platforms
-* All CPU architectures
+
+Yaksa has been tested on the following CPU architectures:
+
+* x86_64
+* ppc64
+
+For GPU architectures, the following are supported:
+
 * NVIDIA GPU via CUDA
 
-## Yaksa Architecture
-<img src="images/yaksa-arch.svg" />
+Yaksa supports all C99 and POSIX 2001 compliant systems.  Specific
+compilers that are supported are:
+
+* GNU (>= 4.1)
+* LLVM clang (>= 3.0)
+* Intel (>= 10.1)
+* PGI (>= 9.0)
+* XL (>= 10.0)
+* Sun Studio (>= 12)
+* Elopath (>= 5.0)
+* Fujitsu Softune
+
+***
+
+<a href="{{ site.github.repository_url }}">{{
+site.github.repository_name }}</a> is maintained by the <a href="{{
+site.github.owner_url }}">{{ site.github.owner_name }} group</a> at
+the Argonne National Laboratory.
+
+The contents of this website are &copy; 2020 under the terms of the <a
+href="{{ site.github.license_url }}">yaksa license</a>.

@@ -19,7 +19,7 @@
     <header>
       <div class="inner">
         <a href="{{ '/' | absolute_url }}">
-          <h1>{{ site.title | default: site.github.repository_name }}</h1>
+          <img src="{{ site.baseurl }}/images/yaksa-logo-white.svg" id="yaksa_logo" />
         </a>
         <h2>{{ site.description | default: site.github.project_tagline }}</h2>
         <a href="{{ site.github.repository_url }}" class="button"><small>View project on</small> GitHub</a>
@@ -29,9 +29,13 @@
       </div>
     </header>
 
+
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
+          {% if page.name != "index.md" %}
+          <h1>{{ page.name | replace : ".md", "" | replace : "-", " " }}</h1>
+          {% endif %}
           {{ content }}
         </section>
 
@@ -48,38 +52,20 @@
                 <i class="fa fa-question-circle"></i> Support
               </button>
             </a>
-            <a href="{{ site.github.documentation_url }}">
+            <a href="{{ site.baseurl }}/Documentation">
               <button class="btn">
                 <i class="fa fa-book"></i> Documentation
               </button>
             </a>
-            <div class="trivia">
+            <div id="trivia">
               Did you know?
-              <div class="trivia_content">
-                "Yaksa", in Sanskrit, means a nature spirit.  In some cultures,
-                they are thought of as the guardians.
-              </div>
-              <div class="trivia_content">
-                "Yaksi" is the female counterpart of Yaksa.
-              </div>
-              <div class="trivia_content">
-                "Yaksur" is distorted from Asura, which a member of a class of
-                divine beings in the Vedic period.
-              </div>
-              <div class="trivia_content">
-                "Yaksuri" is distorted from Asuri, which is the female
-                counterpart of Asura.
-              </div>
-              <div class="trivia_icon">
-                <img src="images/left-triangle-arrow.svg" class="icon" id="trivia_icon_left" />
-                <img src="images/right-triangle-arrow.svg" class="icon" id="trivia_icon_right" />
+              <div id="trivia_content"></div>
+              <div id="trivia_icon">
+                <img src="{{ site.baseurl }}/images/left-triangle-arrow.svg" class="icon" id="trivia_icon_left" />
+                <img src="{{ site.baseurl }}/images/right-triangle-arrow.svg" class="icon" id="trivia_icon_right" />
               </div>
             </div>
             {% endif %}
-
-          {% if site.github.is_project_page %}
-            <p class="repo-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a> is maintained by the <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }} group at the Argonne National Laboratory</a>.</p>
-          {% endif %}
         </aside>
       </div>
     </div>
@@ -96,31 +82,48 @@
       </script>
     {% endif %}
       <script>
-        var triviaIndex = 0;
+        var trivias =[ 
+          "\"Yaksa\", in Sanskrit, means a nature spirit.  In some cultures, \
+            they are thought of as the guardians.",
+          "\"Yaksi\" is the female counterpart of Yaksa.",
+          "\"Yaksur\" is distorted from Asura, which a member of a class of \
+            divine beings in the Vedic period.",
+          "\"Yaksuri\" is distorted from Asuri, which is the female counterpart \
+            of Asura."
+        ];
+        var triviaIndex = 1;
         var count = 0;
+        var fade_delay = 1000;
+
+        function fadeInTrivia(recursive) {
+          $("#trivia_content").html(trivias[triviaIndex - 1])
+          $("#trivia").fadeIn(fade_delay, "linear", function() {
+            if (recursive) {
+              setTimeout(function() {
+                showTrivia(true, true);
+              }, 10000); // Change trivia every 10 seconds
+            }
+          });
+        }
 
         function showTrivia(recursive, move_forward) {
           var i;
-          var trivias = document.getElementsByClassName("trivia_content");
-          for (i = 0; i < trivias.length; i++) {
-            trivias[i].style.display = "none";  
-          }
-          triviaIndex += move_forward ? 1 : -1;
-          if (triviaIndex > trivias.length) {
-            triviaIndex = 1;
-          }
-          else if (triviaIndex == 0) {
-            triviaIndex = trivias.length;
-          }
-          trivias[triviaIndex-1].style.display = "block";  
-          if (recursive) {
-            setTimeout(function() {
-              showTrivia(true, true);
-            }, 10000); // Change trivia every 10 seconds
-          }
+          trivia = document.getElementById("trivia");
+          fadeEvent = $("#trivia").fadeOut(fade_delay, "linear", function() {
+            $("#trivia_content").html("")
+            triviaIndex += move_forward ? 1 : -1;
+            if (triviaIndex > trivias.length) {
+              triviaIndex = 1;
+            }
+            else if (triviaIndex == 0) {
+              triviaIndex = trivias.length;
+            }
+            fadeInTrivia(recursive);
+          });
         }
 
-        showTrivia(true, true);
+        $("#trivia_content").html(trivias[0])
+        setTimeout(function() { showTrivia(true, true) }, 10000);
 
         $("#trivia_icon_left").click(function() {
           showTrivia(false, false);
