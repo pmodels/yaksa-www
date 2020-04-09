@@ -1,3 +1,4 @@
+* [Overview](#overview)
 * [API](#api)
   * [yaksa_ipack](#yaksa_ipack)
   * [yaksa_iunpack](#yaksa_iunpack)
@@ -5,18 +6,26 @@
   * [yaksa_request_test](#yaksa_request_test)
 * [Examples](#examples)
   * [Contig Layout](#contig-layout)
-  * [Hvector Layout](#hvector-layout)
-  * [Hindexed Block Layout](#hindexed-block-layout)
-  * [Hindexed Layout](#hindexed-layout)
+  * [Vector Layout](#vector-layout)
+  * [Indexed Block Layout](#indexed-block-layout)
+  * [Indexed Layout](#indexed-layout)
   * [Resized Layout](#resized-layout)
   * [Partial Pack and Unpack](#partial-pack-and-unpack)
+
+# Overview
+This document presents the pack and unpack APIs provided by Yaksa and showcases them using some simple example from [Creating New Datatypes](https://github.com/pmodels/yaksa/wiki/Creating-New-Datatypes). These APIs have non-blocking semantics and return a request object that can be used to test on progress of these operations of the wait for their completion (see apposite APIs that follow). The reason for having non-blocking semantics is that some target architectures, such as GPUs, allow data to be transferred asynchronously (without the intervention of the CPU). Besides this, the APIs also allow for partial pack and unpack. Some example of when this feature is useful is given in the rest of the document.
 
 # API
 ## yaksa_ipack()
 ```c
-int yaksa_ipack(const void *inbuf, uintptr_t incount, yaksa_type_t type,
-                uintptr_t inoffset, void *outbuf, uintptr_t max_pack_bytes,
-                uintptr_t *actual_pack_bytes, yaksa_request_t *request)
+int yaksa_ipack(const void      * inbuf,
+                uintptr_t         incount,
+                yaksa_type_t      type,
+                uintptr_t         inoffset,
+                void            * outbuf,
+                uintptr_t         max_pack_bytes,
+                uintptr_t       * actual_pack_bytes,
+                yaksa_request_t * request)
 ```
 
 * Pack the data represented by (incount, type) tuple into a contiguous buffer
@@ -35,9 +44,13 @@ int yaksa_ipack(const void *inbuf, uintptr_t incount, yaksa_type_t type,
 
 ## yaksa_iunpack()
 ```c
-int yaksa_iunpack(const void *inbuf, uintptr_t insize, void *outbuf,
-                  uintptr_t outcount, yaksa_type_t type, uintptr_t outoffset,
-                  yaksa_request_t *request)
+int yaksa_iunpack(const void      * inbuf,
+                  uintptr_t         insize,
+                  void            * outbuf,
+                  uintptr_t         outcount,
+                  yaksa_type_t      type,
+                  uintptr_t         outoffset,
+                  yaksa_request_t * request)
 ```
 
 * Unpack data from a contiguous buffer into a buffer represented by the (incount, type) touple
@@ -67,7 +80,8 @@ int yaksa_request_wait(yaksa_request_t request)
 
 ## yaksa_request_test()
 ```c
-int yaksa_request_test(yaksa_request_t request, int *completed)
+int yaksa_request_test(yaksa_request_t   request,
+                       int             * completed)
 ```
 * Test to see if a request has completed
 * Parameters
@@ -78,10 +92,10 @@ int yaksa_request_test(yaksa_request_t request, int *completed)
   * On error, a non-zero error code is returned.
 
 # Examples
-The examples in this section build on the examples presented in [Datatype Creation](https://github.com/pmodels/yaksa/wiki/Datatype-Creation). They show how the produced data in the pack buffer looks like when considering different layouts. Moreover, they also show how to do partial pack and unpack. This feature is useful when the original data has to be sent to another process over the network, for example, and the communication library cannot transfer the all data at once. In this case smaller portions of the data have to be transferred one after the other in sequence.
+The examples in this section build on the examples presented in [Datatype Creation](https://github.com/pmodels/yaksa/wiki/Datatype-Creation). They show how the produced data in the pack buffer looks like when considering different layouts. Moreover, they also show how to do partial pack and unpack. This feature is useful when the original data has to be sent to another process over the network, for example, and the communication library cannot transfer all the data at once. In this case smaller portions of the data have to be transferred one after the other in sequence.
 
 ## Contig Layout
-Packing data using a contiguous layout has the effect of making an exact copy of the original data into the pack buffer, up to the number of bytes defined by the layout. Similarly, unpacking data using a contiguous layout has the effect of making an exact copy of the data in the pack buffer into the target buffer. The following code shows how to pack and unpack using the contiguous layout and the input data used in previous examples.
+Packing data using a contiguous layout has the effect of making an exact copy of the original data into the pack buffer, up to the number of bytes defined by the layout. Similarly, unpacking data using a contiguous layout has the effect of making an exact copy of the data in the pack buffer into the target buffer. The following code shows how to pack and unpack using the contiguous layout and the input matrix used in previous examples.
 
 ```c
 #include <yaksa.h>
@@ -89,7 +103,7 @@ Packing data using a contiguous layout has the effect of making an exact copy of
 int main()
 {
     int rc;
-    int matrix[64]; /* initialized with data from previous example */
+    int input_matrix[64]; /* initialized with data from previous example */
     int pack_buf[64];
     int unpack_buf[64];
     yaksa_type_t contig;
@@ -103,7 +117,8 @@ int main()
     uintptr_t actual_pack_bytes;
 
     /* start packing */
-    rc = yaksa_ipack(matrix, 1, contig, pack_buf, 256, &actual_pack_bytes, &request);
+    rc = yaksa_ipack(input_matrix, 1, contig, pack_buf, 256, 
+                     &actual_pack_bytes, &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for packing to complete */
@@ -111,7 +126,8 @@ int main()
     assert(rc == YAKSA_SUCCESS);
 
     /* start unpacking */
-    rc = yaksa_iunpack(pack_buf, 256, unpack_buf, 256, contig, 0, &request);
+    rc = yaksa_iunpack(pack_buf, 256, unpack_buf, 256, contig, 0,
+                       &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for unpacking to complete */
@@ -139,8 +155,8 @@ pack_buf = unpack_buf =
 56 57 58 59 60 61 62 63
 ```
 
-## Hvector Layout
-The following code shows how to pack and unpack using the hvector layout and the input data used in previous examples.
+## Vector Layout
+The following code shows how to pack and unpack using the vector layout and the input matrix used in previous examples.
 
 ```c
 #include <yaksa.h>
@@ -148,10 +164,10 @@ The following code shows how to pack and unpack using the hvector layout and the
 int main()
 {
     int rc;
-    int matrix[64]; /* initialized with data from previous example */
+    int input_matrix[64]; /* initialized with data from previous example */
     int pack_buf[64];
     int unpack_buf[64];
-    yaksa_type_t hvector;
+    yaksa_type_t vector;
 
     yaksa_init(); /* before any yaksa API is called the library
                      must be initialized */
@@ -164,7 +180,8 @@ int main()
     /* start packing.
      * note that we can request more bytes in max_pack_bytes and will
      * get the correct number of packed bytes in actual_pack_bytes */
-    rc = yaksa_ipack(matrix, 1, hvector, pack_buf, 256, &actual_pack_bytes, &request);
+    rc = yaksa_ipack(input_matrix, 1, vector, pack_buf, 256,
+                     &actual_pack_bytes, &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for packing to complete */
@@ -172,14 +189,15 @@ int main()
     assert(rc == YAKSA_SUCCESS);
 
     /* start unpacking */
-    rc = yaksa_iunpack(pack_buf, 32, unpack_buf, 1, hvector, 0, &request);
+    rc = yaksa_iunpack(pack_buf, 32, unpack_buf, 1, vector, 0,
+                       &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for unpacking to complete */
     rc = yaksa_request_wait(request);
     assert(rc == YAKSA_SUCCESS);
 
-    yaksa_free(hvector);
+    yaksa_free(vector);
 
     yaksa_finalize();
     return 0;
@@ -210,8 +228,8 @@ unpack_buf=
 56  0  0  0  0  0  0  0
 ```
 
-## Hindexed Block Layout
-The following code shows how to pack and unpack using the hindexed block layout and the input data used in previous examples.
+## Indexed Block Layout
+The following code shows how to pack and unpack using the indexed block layout and the input matrix used in previous examples.
 
 ```c
 #include <yaksa.h>
@@ -219,10 +237,10 @@ The following code shows how to pack and unpack using the hindexed block layout 
 int main()
 {
     int rc;
-    int matrix[64]; /* initialized with data from previous example */
+    int input_matrix[64]; /* initialized with data from previous example */
     int pack_buf[64];
     int unpack_buf[64];
-    yaksa_type_t hindx_block;
+    yaksa_type_t indx_block;
 
     yaksa_init(); /* before any yaksa API is called the library
                      must be initialized */
@@ -233,7 +251,8 @@ int main()
     uintptr_t actual_pack_bytes;
 
     /* start packing */
-    rc = yaksa_ipack(matrix, 1, hindx_block, pack_buf, 256, &actual_pack_bytes, &request);
+    rc = yaksa_ipack(input_matrix, 1, indx_block, pack_buf, 256,
+                     &actual_pack_bytes, &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for packing to complete */
@@ -241,14 +260,15 @@ int main()
     assert(rc == YAKSA_SUCCESS);
 
     /* start unpacking */
-    rc = yaksa_iunpack(pack_buf, 128, unpack_buf, 1, hindx_block, 0, &request);
+    rc = yaksa_iunpack(pack_buf, 128, unpack_buf, 1, indx_block, 0,
+                       &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for unpacking to complete */
     rc = yaksa_request_wait(request);
     assert(rc == YAKSA_SUCCESS);
 
-    yaksa_free(hindx_block);
+    yaksa_free(indx_block);
 
     yaksa_finalize();
     return 0;
@@ -279,8 +299,8 @@ unpack_buf=
 56 57 58 59  0  0  0  0
 ```
 
-## Hindexed
-The following code shows how to pack and unpack using the hindexed layout and the input data used in previous examples.
+## Indexed Layout
+The following code shows how to pack and unpack using the indexed layout and the input matrix used in previous examples.
 
 ```c
 #include <yaksa.h>
@@ -288,10 +308,10 @@ The following code shows how to pack and unpack using the hindexed layout and th
 int main()
 {
     int rc;
-    int matrix[64]; /* initialized with data from previous example */
+    int input_matrix[64]; /* initialized with data from previous example */
     int pack_buf[64];
     int unpack_buf[64];
-    yaksa_type_t hindexed;
+    yaksa_type_t indexed;
 
     yaksa_init(); /* before any yaksa API is called the library
                      must be initialized */
@@ -302,7 +322,8 @@ int main()
     uintptr_t actual_pack_bytes;
 
     /* start packing */
-    rc = yaksa_ipack(matrix, 1, hindexed, pack_buf, 256, &actual_pack_bytes, &request);
+    rc = yaksa_ipack(input_matrix, 1, indexed, pack_buf, 256,
+                     &actual_pack_bytes, &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for packing to complete */
@@ -310,14 +331,15 @@ int main()
     assert(rc == YAKSA_SUCCESS);
 
     /* start unpacking */
-    rc = yaksa_iunpack(pack_buf, 84, unpack_buf, 1, hindexed, 0, &request);
+    rc = yaksa_iunpack(pack_buf, 84, unpack_buf, 1, indexed, 0,
+                       &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for unpacking to complete */
     rc = yaksa_request_wait(request);
     assert(rc == YAKSA_SUCCESS);
 
-    yaksa_free(hindexed);
+    yaksa_free(indexed);
 
     yaksa_finalize();
     return 0;
@@ -349,7 +371,7 @@ unpack_buf=
 ```
 
 ## Resized Layout
-The following code shows how to pack and unpack using the transposed layout and the input data used in previous examples.
+The following code shows how to pack and unpack using the transposed layout and the input matrix used in previous examples.
 
 ```c
 #include <yaksa.h>
@@ -357,7 +379,7 @@ The following code shows how to pack and unpack using the transposed layout and 
 int main()
 {
     int rc;
-    int matrix[64]; /* initialized with data from previous example */
+    int input_matrix[64]; /* initialized with data from previous example */
     int pack_buf[64];
     int unpack_buf[64];
     yaksa_type_t vector;
@@ -373,7 +395,8 @@ int main()
     uintptr_t actual_pack_bytes;
 
     /* start packing */
-    rc = yaksa_ipack(matrix, 1, transpose, pack_buf, 256, &actual_pack_bytes, &request);
+    rc = yaksa_ipack(input_matrix, 1, transpose, pack_buf, 256,
+                     &actual_pack_bytes, &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for packing to complete */
@@ -381,7 +404,8 @@ int main()
     assert(rc == YAKSA_SUCCESS);
 
     /* start unpacking */
-    rc = yaksa_iunpack(pack_buf, 256, unpack_buf, 1, transpose, 0, &request);
+    rc = yaksa_iunpack(pack_buf, 256, unpack_buf, 1, transpose, 0,
+                       &request);
     assert(rc == YAKSA_SUCCESS);
 
     /* wait for unpacking to complete */
@@ -421,10 +445,10 @@ unpack_buf=
 56 57 58 59 60 61 62 63
 ```
 
-The unpack buffer is identical to the original input buffer as a double transposition returns the original matrix.
+The unpack buffer is identical to the original input matrix as a double transposition returns the original matrix.
 
 ## Partial Pack and Unpack
-As already said, there are cases in which pack/unpack might need to be performed to/from a buffer that can only contain a part of the original data. This is the case, for example, when transferring a very large buffer over the network. In such case it is more efficient to break up the packing/unpacking into smaller chunks and overlap the packing/unpacking of the current chunk with the transfer of the previous/next. This overlap between memory copy and network transfer can be achieved precisely using the partial packing/unpacking feature offered by Yaksa as shown in the following example.
+As already said, there are cases in which pack/unpack might need to be performed to/from a buffer that can only contain a part of the original data. This is the case, for example, when transferring a very large buffer over the network. In such case it is more efficient to break up the packing/unpacking into smaller chunks and overlap the packing/unpacking of the current chunk with the transfer of the previous/next. This overlap between memory copy and network transfer can be achieved precisely using the partial packing/unpacking feature offered by Yaksa, as shown in the following example.
 
 ```c
 #include <yaksa.h>
@@ -432,10 +456,10 @@ As already said, there are cases in which pack/unpack might need to be performed
 int main()
 {
     int rc;
-    int matrix[64]; /* initialized with data from previous example */
+    int input_matrix[64]; /* initialized with data from previous example */
     int pack_buf[64];
     int unpack_buf[64];
-    yaksa_type_t hindx_block;
+    yaksa_type_t indx_block;
 
     yaksa_init(); /* before any yaksa API is called the library
                      must be initialized */
@@ -448,7 +472,7 @@ int main()
     uintptr_t chunk = 64;
     for (uintptr_t pos = 0; pos < 128; pos += chunk) {
         /* start partial packing */
-        rc = yaksa_ipack(matrix, 1, hindx_block, pos, pack_buf,
+        rc = yaksa_ipack(input_matrix, 1, indx_block, pos, pack_buf,
                          chunk, &actual_pack_bytes, &request);
         assert(rc == YAKSA_SUCCESS);
 
@@ -458,7 +482,7 @@ int main()
 
         /* start partial unpacking */
         rc = yaksa_iunpack(pack_buf, chunk, unpack_buf, 1, 
-                           hindx_block, pos, &request);
+                           indx_block, pos, &request);
         assert(rc == YAKSA_SUCCESS);
 
         /* wait for unpacking to complete */
@@ -466,11 +490,11 @@ int main()
         assert(rc == YAKSA_SUCCESS);
     }
 
-    yaksa_free(hindx_block);
+    yaksa_free(indx_block);
 
     yaksa_finalize();
     return 0;
 }
 ```
 
-The previous code is similar to the hindexed block example. The difference is that only half of the data in the input buffer is packed/unpacked at every iteration of the for loop.
+The previous code is similar to the indexed block example. The difference is that only half of the data in the input buffer is packed/unpacked at every iteration of the for loop.

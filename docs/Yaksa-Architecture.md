@@ -1,4 +1,4 @@
-![]({{ site.baseurl }}/images/yaksa-arch.svg)
+![](https://pmodels.github.io/yaksa-www/images/yaksa-arch.svg)
 
 Yaksa uses a three-layer architecture composed of a frontend layer, a
 backend glue layer, and a backend device layer.
