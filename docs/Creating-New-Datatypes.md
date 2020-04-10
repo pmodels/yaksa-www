@@ -775,6 +775,34 @@ The previous code creates a vector type representing columns in `input_matrix`. 
 
 Note that without the resizing of the `extent` the second row of the matrix would start with the element `57` instead of `1` and memory outside the matrix would be erroneously referenced after it.
 
+Please also note that the same result, as for previous code, can be achieved by creating a hvector of the column vector as following shown.
+
+```c
+#include <yaksa.h>
+
+int main()
+{
+    int rc;
+    int input_matrix[64];
+    yaksa_type_t vector;
+    yaksa_type_t hvector;
+
+    yaksa_init();
+
+    rc = yaksa_create_vector(8, 1, 8, YAKSA_TYPE__INT, &vector);
+    assert(rc == YAKSA_SUCCESS);
+
+    rc = yaksa_create_hvector(8, 1, sizeof(int), vector, &hvector);
+    assert(rc == YAKSA_SUCCESS);
+
+    yaksa_free(vector);
+    yaksa_free(hvector);
+
+    yaksa_finalize();
+    return 0;
+}
+```
+
 ## yaksa_free()
 ```c
 int yaksa_free(yaksa_type_t type)
