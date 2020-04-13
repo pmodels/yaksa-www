@@ -87,6 +87,8 @@ int yaksa_create_dup(yaksa_type_t   oldtype,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
+***
+
 ## yaksa_create_vector()
 ```c
 int yaksa_create_vector(int            count,
@@ -107,7 +109,7 @@ int yaksa_create_vector(int            count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The following example showcases the use `yaksa_create_vector` API to create a new vector layout.
 
@@ -155,6 +157,8 @@ The created `vector` layout contains 8 blocks, each made of 1 signed integer and
  56  x  x  x  x  x  x  x          x 57  x  x  x  x  x  x
 ```
 
+***
+
 ## yaksa_create_hvector()
 ```c
 int yaksa_create_hvector(int            count,
@@ -174,7 +178,7 @@ int yaksa_create_hvector(int            count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The "h" in hvector stands for heterogeneous and refers to the fact that the stride does not have to be a multiple of the vector's base type length but can be any number of bytes. Consider the case in which every element of an input matrix is represented by a pair of variables (x, y) of different type. A user might be interested in reading only the first variable (i.e., x) for each element. When using an hvector layout the user needs the base type of the variable of interest and the size of each element, as following shown:
 
@@ -230,6 +234,8 @@ The following example shows the layout when the `hvector` datatype is applied to
 
 The same result could not be achieved using the vector layout as the stride is not a multiple of the base type length (i.e. int in case of `x`).
 
+***
+
 ## yaksa_create_indexed_block()
 ```c
 int yaksa_create_indexed_block(int            count,
@@ -250,7 +256,7 @@ int yaksa_create_indexed_block(int            count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The following example showcases the use `yaksa_create_indexed_block` API to create a new indexed block layout.
 
@@ -302,6 +308,8 @@ The `indx_block` layout covers the following elements in `input_matrix`:
  56 57 58 59  x  x  x  x
 ```
 
+***
+
 ## yaksa_create_hindexed_block()
 ```c
 int yaksa_create_hindexed_block(int              count,
@@ -321,7 +329,7 @@ int yaksa_create_hindexed_block(int              count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 Similarly to the previously described hvector datatype, the hindexed block datatype can be used to access heterogeneous data using byte displacements (rather than units of the base type) as shown in the following example:
 
@@ -379,6 +387,8 @@ The following example shows the layout when it is applied to the beginning of `p
  (7,0) (7,1) (7,2) (7,3) (x,x) (x,x) (x,x) (x,x)
 ```
 
+***
+
 ## yaksa_create_indexed()
 ```c
 int yaksa_create_indexed(int            count,
@@ -399,7 +409,7 @@ int yaksa_create_indexed(int            count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The following example showcases the use `yaksa_create_indexed` API to create a new indexed layout.
 
@@ -458,6 +468,8 @@ The `indexed` layout covers the following elements in input matrix:
 
 The same layout can also be obtained using `yaksa_create_hindexed()` by expressing the displacement array in bytes instead of base element units.
 
+***
+
 ## yaksa_create_hindexed()
 ```c
 int yaksa_create_hindexed(int              count,
@@ -478,7 +490,7 @@ int yaksa_create_hindexed(int              count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 Similarly to the previously described hvector and hindexed block datatypes, the hindexed datatype can be used to access heterogeneous data using byte displacements (rather than units of the base type) as shown in the following example:
 
@@ -540,6 +552,8 @@ The following example shows the layout when it is applied to the beginning of `p
  (x,x) (x,x) (x,x) (x,x) (7,4) (5,5) (7,6) (7,7)
 ```
 
+***
+
 ## yaksa_create_struct()
 ```c
 int yaksa_create_struct(int                  count,
@@ -560,7 +574,7 @@ int yaksa_create_struct(int                  count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The following example showcases the use `yaksa_create_struct` API to create a new struct layout.
 
@@ -609,6 +623,8 @@ struct {
 }
 ```
 
+***
+
 ## yaksa_create_subarray()
 ```c
 int yaksa_create_subarray(int                     ndims,
@@ -633,7 +649,7 @@ int yaksa_create_subarray(int                     ndims,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The following example showcases the use `yaksa_create_subarray` API to create a new subarray layout.
 
@@ -690,6 +706,8 @@ The `subarray` layout covers the following elements in `input_matrix`:
 
 The layout show above can also be obtained using `yaksa_create_hindexed_block` or `yaksa_create_hindexed`.
 
+***
+
 ## yaksa_create_resized()
 ```c
 int yaksa_create_resized(yaksa_type_t   oldtype,
@@ -708,8 +726,7 @@ int yaksa_create_resized(yaksa_type_t   oldtype,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
-
+#
 
 This example shows how to use a resized vector datatype to perform a matrix transposition. A matrix transposition layout can be created using the following code. 
 
@@ -804,6 +821,8 @@ int main()
     return 0;
 }
 ```
+
+***
 
 ## yaksa_free()
 ```c
