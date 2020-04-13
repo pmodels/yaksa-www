@@ -7,7 +7,7 @@
   * [Partitioned Iov Create](#partitioned-iov-create)
 
 # Overview
-The I/O vector representation is useful when packing becomes expensive. This happens when the amount of data to be packed is high and the memory copy cost becomes substantial compared with the cost of directly accessing single blocks of data in the buffer. Thus, if the data layout is characterized by large blocks of contiguous data, I/O vectors become a more viable representation. On the contrary, if blocks are small and there are many of them packing might be a more suitable strategy. Similarly to pack and unpack, I/O vector APIs also allows for partial datatype processing, as showcased by some example in the following. 
+The I/O vector representation is useful when packing becomes expensive. This happens when the amount of data to be packed is high and the memory copy cost becomes substantial compared with the cost of directly accessing single blocks of data in the buffer. Thus, if the data layout is characterized by large blocks of contiguous data, I/O vectors become a more viable representation. On the contrary, if blocks are small and there are many of them packing might be a more suitable strategy. Similarly to pack and unpack, I/O vector APIs also allow for partial datatype processing, as showcased by following examples. 
 
 # API
 ## yaksa_iov_len()

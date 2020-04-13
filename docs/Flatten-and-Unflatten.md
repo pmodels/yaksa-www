@@ -6,7 +6,7 @@
 * [Examples](#examples)
 
 # Overview
-In some cases the datatype layout might need to be transferred to another process that performs the unpacking of the receive buffer into the final destination buffer. This is the case, for example, when using MPI one-sided communication such as `MPI_Put` or `MPI_Accumulate`. One possibility is to convert the origin datatype into an iovec representation and transfer this to the target of the RMA operation. However, as already said when discussing the I/O vector APIs, the I/O vector representation might not always be the best from a performance standpoint. In these cases it is best to transfer the datatype directly. This can be achieved by flattening the datatype representation (tree) into a linear array of bytes inside a buffer.
+In some cases the datatype layout might need to be transferred to another process that performs the unpacking of the receive buffer into the final destination buffer. This is the case, for example, when using MPI one-sided communication such as `MPI_Put` or `MPI_Accumulate`. One possibility is to convert the origin datatype into an iov representation and transfer this to the target of the RMA operation. However, as already said when discussing the I/O vector APIs, the I/O vector representation might not always be the best from a performance standpoint. In these cases it is best to transfer the datatype directly. This can be achieved by flattening the datatype representation (tree) into a linear array of bytes inside a buffer.
 
 # API
 ## yaksa_flatten_size()

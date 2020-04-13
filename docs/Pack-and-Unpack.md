@@ -13,7 +13,7 @@
   * [Partial Pack and Unpack](#partial-pack-and-unpack)
 
 # Overview
-This document presents the pack and unpack APIs provided by Yaksa and showcases them using some simple example from [Creating New Datatypes](https://github.com/pmodels/yaksa/wiki/Creating-New-Datatypes). These APIs have non-blocking semantics and return a request object that can be used to test on progress of these operations of the wait for their completion (see apposite APIs that follow). The reason for having non-blocking semantics is that some target architectures, such as GPUs, allow data to be transferred asynchronously (without the intervention of the CPU). Besides this, the APIs also allow for partial pack and unpack. Some example of when this feature is useful is given in the rest of the document.
+This document presents the pack and unpack APIs provided by Yaksa and showcases them using some simple example from [Creating New Datatypes](https://github.com/pmodels/yaksa/wiki/Creating-New-Datatypes). These APIs have non-blocking semantics and return a request object that can be used to test on progress of these operations or wait for their completion (see apposite APIs that follow). The reason for having non-blocking semantics is that some target architectures, such as GPUs, allow data to be transferred asynchronously (without the intervention of the CPU). Besides this, the APIs also allow for partial pack and unpack. Some example of when this feature is useful is given in the rest of the document.
 
 # API
 ## yaksa_ipack()
