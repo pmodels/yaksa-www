@@ -23,6 +23,8 @@ int yaksa_flatten_size(yaksa_type_t   type,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
+***
+
 ## yaksa_flatten()
 ```c
 int yaksa_flatten(yaksa_type_t   type,
@@ -36,6 +38,8 @@ int yaksa_flatten(yaksa_type_t   type,
 * Return values
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
+
+***
 
 ## yaksa_unflatten()
 ```c

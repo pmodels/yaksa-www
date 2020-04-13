@@ -26,6 +26,8 @@ int yaksa_iov_len(uintptr_t      count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
+***
+
 ## yaksa_iov()
 ```c
 int yaksa_iov(const char   * buf,

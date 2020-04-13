@@ -42,6 +42,8 @@ int yaksa_ipack(const void      * inbuf,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
+***
+
 ## yaksa_iunpack()
 ```c
 int yaksa_iunpack(const void      * inbuf,
@@ -66,6 +68,8 @@ int yaksa_iunpack(const void      * inbuf,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
+***
+
 ## yaksa_request_wait()
 ```c
 int yaksa_request_wait(yaksa_request_t request)
@@ -77,6 +81,8 @@ int yaksa_request_wait(yaksa_request_t request)
 * Return values
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
+
+***
 
 ## yaksa_request_test()
 ```c
