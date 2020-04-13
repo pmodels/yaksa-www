@@ -1,11 +1,11 @@
 ### User Documentation
 * [Builtin Datatypes](https://github.com/pmodels/yaksa/wiki/Builtin-Datatypes)
 * [Init and Finalize](https://github.com/pmodels/yaksa/wiki/Init-and-Finalize)
-* [Utility](https://github.com/pmodels/yaksa/wiki/Utility)
+* [Utility Functions](https://github.com/pmodels/yaksa/wiki/Utility-Functions)
 * [Creating New Datatypes](https://github.com/pmodels/yaksa/wiki/Creating-New-Datatypes)
 * [Pack and Unpack](https://github.com/pmodels/yaksa/wiki/Pack-and-Unpack)
-* [I/O Vector](https://github.com/pmodels/yaksa/wiki/IOVEC)
-* [Flatten and Unflatten](https://github.com/pmodels/yaksa/wiki/Flatten)
+* [I/O Vector](https://github.com/pmodels/yaksa/wiki/IO-Vector)
+* [Flatten and Unflatten](https://github.com/pmodels/yaksa/wiki/Flatten-and-Unflatten)
 
 ### Developer Documentation
 * [Contributing to Yaksa](https://github.com/pmodels/yaksa/wiki/Yaksa-Contributor-License-Agreement)
