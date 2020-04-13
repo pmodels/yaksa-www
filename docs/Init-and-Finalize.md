@@ -15,6 +15,8 @@ int yaksa_init(void)
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
+***
+
 ## yaksa_finalize()
 ```c
 int yaksa_finalize(void)

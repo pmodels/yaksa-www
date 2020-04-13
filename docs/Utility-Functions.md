@@ -21,7 +21,7 @@ int yaksa_get_size(yaksa_type_t  type,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The following example shows how to get the pack buffer size for a non-contiguous datatype.
 
@@ -52,6 +52,9 @@ int main()
    return rc;
 }
 ```
+
+***
+
 ## yaksa_get_true_extent()
 ```c
 int yaksa_get_true_extent(yaksa_type_t  type,
@@ -67,7 +70,7 @@ int yaksa_get_true_extent(yaksa_type_t  type,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The true lower bound and true extent represent the boundaries of the datatype. The true lower bound is the lowest point in the datatype and the upper bound (`true_lb + true_extent`) is the highest. These points are immutable and, if the datatype has not been resized, can be used to figure out the size of the source buffer the datatype refers to (or the size of the buffer targeted by an unpack operation). An example is provided in the following.
 
@@ -99,6 +102,8 @@ int main()
    return rc;
 }
 ```
+
+***
 
 ## yaksa_get_extent()
 ```c
