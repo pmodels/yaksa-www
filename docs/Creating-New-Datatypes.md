@@ -71,6 +71,9 @@ int main()
 
 The code snippet creates a new contig layout containing 64 signed integer elements, thus the `contig` layout covers all the elements in the `input_matrix`.
 
+***
+***
+
 ## yaksa_create_dup()
 ```c
 int yaksa_create_dup(yaksa_type_t   oldtype,
