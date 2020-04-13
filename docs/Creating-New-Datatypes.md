@@ -35,7 +35,7 @@ int yaksa_create_contig(int            count,
   * On success, `YAKSA_SUCCESS` is returned.
   * On error, a non-zero error code is returned.
 
-***
+#
 
 The following example showcases the use `yaksa_create_contig` API to create a new contig layout.
 
@@ -71,7 +71,6 @@ int main()
 
 The code snippet creates a new contig layout containing 64 signed integer elements, thus the `contig` layout covers all the elements in the `input_matrix`.
 
-***
 ***
 
 ## yaksa_create_dup()
