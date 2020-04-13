@@ -4,18 +4,21 @@
       <div class="title_doc">User Documentation</div>
       <img src="{{ site.baseurl }}/images/icon-user-doc.svg" />
       <div class="btn_stack">
-        <a href="{{ site.baseurl }}/docs/Datatype-Creation"><button>Datatype Creation</button></a>
+        <a href="{{ site.baseurl }}/docs/Builtin-Datatypes"><button>Builtin Datatypes</button></a>
+        <a href="{{ site.baseurl }}/docs/Init-and-Finalize"><button>Init and Finalize</button></a>
+        <a href="{{ site.baseurl }}/docs/Utility-Functions"><button>Utility Functions</button></a>
+        <a href="{{ site.baseurl }}/docs/Creating-New-Datatypes"><button>Creating New Datatypes</button></a>
         <a href="{{ site.baseurl }}/docs/Pack-and-Unpack"><button>Pack and Unpack</button></a>
-        <a href="{{ site.baseurl }}/docs/IOVEC"><button>I/O Vector</button></a>
-        <a href="{{ site.baseurl }}/docs/Flatten"><button>Flatten and Unflatten</button></a>
+        <a href="{{ site.baseurl }}/docs/IO-Vector"><button>I/O Vector</button></a>
+        <a href="{{ site.baseurl }}/docs/Flatten-and-Unflatten"><button>Flatten and Unflatten</button></a>
       </div>
     </td>
     <td>
       <div class="title_doc">Developer Documentation</div>
       <img src="{{ site.baseurl }}/images/icon-dev-doc.svg" />
       <div class="btn_stack">
-        <a href="{{ site.baseurl }}/docs/Yaksa-Architecture"><button>Yaksa Architecture</button></a>
         <a href="{{ site.baseurl }}/docs/Yaksa-Contributor-License-Agreement"><button>Contributing to Yaksa</button></a>
+        <a href="{{ site.baseurl }}/docs/Yaksa-Architecture"><button>Yaksa Architecture</button></a>
         <a href="{{ site.baseurl }}/docs/Getting-and-Building"><button>Getting and Building</button></a>
         <a href="{{ site.baseurl }}/docs/Coding-Standards"><button>Coding Standards</button></a>
         <a href="{{ site.baseurl }}/docs/Code-Documentation"><button>Code Documentation</button></a>
