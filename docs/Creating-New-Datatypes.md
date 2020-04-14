@@ -180,7 +180,7 @@ int yaksa_create_hvector(int            count,
 
 #
 
-The "h" in hvector stands for heterogeneous and refers to the fact that the stride does not have to be a multiple of the vector's base type length but can be any number of bytes. Consider the case in which every element of an input matrix is represented by a pair of variables (x, y) of different type. A user might be interested in reading only the first variable (i.e., x) for each element. When using an hvector layout the user needs the base type of the variable of interest and the size of each element, as following shown:
+The "h" in hvector stands for heterogeneous and refers to the fact that the stride does not have to be a multiple of the vector's base type length but can be any number of bytes. The following example showcases the use `yaksa_create_hvector` API to create a new hvector layout.
 
 ```c
 #include <yaksa.h>
@@ -188,27 +188,21 @@ The "h" in hvector stands for heterogeneous and refers to the fact that the stri
 int main()
 {
     int rc;
-    struct pair {
-        long x;
-        int  y;
-    };
-    struct pair pair_matrix[64] = {
-       {0,0}, {0,1}, {0,2}, {0,3}, {0,4}, {0,5}, {0,6}, {0,7},
-       {1,0}, {1,1}, {1,2}, {1,3}, {1,4}, {1,5}, {1,6}, {1,7},
-       {2,0}, {2,1}, {2,2}, {2,3}, {2,4}, {2,5}, {2,6}, {2,7},
-       {3,0}, {3,1}, {3,2}, {3,3}, {3,4}, {3,5}, {3,6}, {3,7},
-       {4,0}, {4,1}, {4,2}, {4,3}, {4,4}, {4,5}, {4,6}, {4,7},
-       {5,0}, {5,1}, {5,2}, {5,3}, {5,4}, {5,5}, {5,6}, {5,7},
-       {6,0}, {6,1}, {6,2}, {6,3}, {6,4}, {6,5}, {6,6}, {6,7},
-       {7,0}, {7,1}, {7,2}, {7,3}, {7,4}, {7,5}, {7,6}, {7,7}};
+    int input_matrix[64] = {
+        0,  1,  2,  3,  4,  5,  6,  7,
+        8,  9, 10, 11, 12, 13, 14, 15,
+       16, 17, 18, 19, 20, 21, 22, 23,
+       24, 25, 26, 27, 28, 29, 30, 31,
+       32, 33, 34, 35, 36, 37, 38, 39,
+       40, 41, 42, 43, 44, 45, 46, 47,
+       48, 49, 50, 51, 52, 53, 54, 55,
+       56, 57, 58, 59, 60, 61, 62, 63};
     yaksa_type_t hvector;
-
-    intptr_t pair_size = sizeof(struct pair);
 
     yaksa_init(); /* before any yaksa API is called the library
                      must be initialized */
 
-    rc = yaksa_create_hvector(64, 1, pair_size, YAKSA_TYPE__LONG, &hvector);
+    rc = yaksa_create_hvector(8, 1, 8 * sizeof(int), YAKSA_TYPE__INT, &hvector);
     assert(rc == YAKSA_SUCCESS);
 
     yaksa_free(hvector);
@@ -218,21 +212,21 @@ int main()
 }
 ```
 
-The following example shows the layout when the `hvector` datatype is applied to the `pair_matrix`:
+The following example shows the layout when the `hvector` datatype is applied to the `input_matrix`:
 
 ```c
-/* pair_matrix layout */
- 0  0  0  0  0  0  0  0
- 1  1  1  1  1  1  1  1
- 2  2  2  2  2  2  2  2
- 3  3  3  3  3  3  3  3
- 4  4  4  4  4  4  4  4
- 5  5  5  5  5  5  5  5
- 6  6  6  6  6  6  6  6
- 7  7  7  7  7  7  7  7
+/* input_matrix layout */
+  0  x  x  x  x  x  x  x
+  8  x  x  x  x  x  x  x
+ 16  x  x  x  x  x  x  x
+ 24  x  x  x  x  x  x  x
+ 32  x  x  x  x  x  x  x
+ 40  x  x  x  x  x  x  x
+ 48  x  x  x  x  x  x  x
+ 56  x  x  x  x  x  x  x
 ```
 
-The same result could not be achieved using the vector layout as the stride is not a multiple of the base type length (i.e. int in case of `x`).
+A more useful example of hvector use case is shown at the end of this document to perform a matrix transposition. 
 
 ***
 
@@ -339,30 +333,24 @@ Similarly to the previously described hvector datatype, the hindexed block datat
 int main()
 {
     int rc;
-    struct pair {
-        long x;
-        int  y;
-    };
-    struct pair pair_matrix[64] = {
-       {0,0}, {0,1}, {0,2}, {0,3}, {0,4}, {0,5}, {0,6}, {0,7},
-       {1,0}, {1,1}, {1,2}, {1,3}, {1,4}, {1,5}, {1,6}, {1,7},
-       {2,0}, {2,1}, {2,2}, {2,3}, {2,4}, {2,5}, {2,6}, {2,7},
-       {3,0}, {3,1}, {3,2}, {3,3}, {3,4}, {3,5}, {3,6}, {3,7},
-       {4,0}, {4,1}, {4,2}, {4,3}, {4,4}, {4,5}, {4,6}, {4,7},
-       {5,0}, {5,1}, {5,2}, {5,3}, {5,4}, {5,5}, {5,6}, {5,7},
-       {6,0}, {6,1}, {6,2}, {6,3}, {6,4}, {6,5}, {6,6}, {6,7},
-       {7,0}, {7,1}, {7,2}, {7,3}, {7,4}, {7,5}, {7,6}, {7,7}};
+    int input_matrix[64] = {
+        0,  1,  2,  3,  4,  5,  6,  7,
+        8,  9, 10, 11, 12, 13, 14, 15,
+       16, 17, 18, 19, 20, 21, 22, 23,
+       24, 25, 26, 27, 28, 29, 30, 31,
+       32, 33, 34, 35, 36, 37, 38, 39,
+       40, 41, 42, 43, 44, 45, 46, 47,
+       48, 49, 50, 51, 52, 53, 54, 55,
+       56, 57, 58, 59, 60, 61, 62, 63};
     yaksa_type_t hindx_block;
-    intptr_t pair_size = sizeof(struct pair);
     intptr_t array_of_displacements[8] = {
-        4  * pair_size, 12 * pair_size, 20 * pair_size, 28 * pair_size,
-        32 * pair_size, 40 * pair_size, 48 * pair_size, 56 * pair_size};
+        4  * sizeof(int), 12 * sizeof(int), 20 * sizeof(int), 28 * sizeof(int),
+        32 * sizeof(int), 40 * sizeof(int), 48 * sizeof(int), 56 * sizeof(int)};
 
     yaksa_init(); /* before any yaksa API is called the library
                      must be initialized */
 
-    rc = yaksa_create_hindexed_block(8, 4, array_of_displacements,
-                                     YAKSA_TYPE__LONG_INT,
+    rc = yaksa_create_hindexed_block(8, 4, array_of_displacements, YAKSA_TYPE__INT,
                                      &hindx_block);
     assert(rc == YAKSA_SUCCESS);
 
@@ -373,18 +361,18 @@ int main()
 }
 ```
 
-The following example shows the layout when it is applied to the beginning of `pair_matrix`:
+The following example shows the layout when it is applied to the beginning of `input_matrix`:
 
 ```c
-/* pair_matrix layout */
- (x,x) (x,x) (x,x) (x,x) (0,4) (0,5) (0,6) (0,7)
- (x,x) (x,x) (x,x) (x,x) (1,4) (1,5) (1,6) (1,7)
- (x,x) (x,x) (x,x) (x,x) (2,4) (2,5) (2,6) (2,7)
- (x,x) (x,x) (x,x) (x,x) (3,4) (3,5) (3,6) (3,7)
- (4,0) (4,1) (4,2) (4,3) (x,x) (x,x) (x,x) (x,x)
- (5,0) (5,1) (5,2) (5,3) (x,x) (x,x) (x,x) (x,x)
- (6,0) (6,1) (6,2) (6,3) (x,x) (x,x) (x,x) (x,x)
- (7,0) (7,1) (7,2) (7,3) (x,x) (x,x) (x,x) (x,x)
+/* input_matrix layout */
+  x  x  x  x  4  5  6  7
+  x  x  x  x 12 13 14 15
+  x  x  x  x 20 21 22 23
+  x  x  x  x 28 29 30 31
+ 32 33 34 35  x  x  x  x
+ 40 41 42 43  x  x  x  x
+ 48 49 50 51  x  x  x  x
+ 56 57 58 59  x  x  x  x
 ```
 
 ***
@@ -492,7 +480,7 @@ int yaksa_create_hindexed(int              count,
 
 #
 
-Similarly to the previously described hvector and hindexed block datatypes, the hindexed datatype can be used to access heterogeneous data using byte displacements (rather than units of the base type) as shown in the following example:
+Similarly to the previously described hindexed block datatype, the hindexed datatype can be used to access heterogeneous data using byte displacements (rather than units of the base type) as shown in the following example:
 
 ```c
 #include <yaksa.h>
@@ -500,35 +488,30 @@ Similarly to the previously described hvector and hindexed block datatypes, the 
 int main()
 {
     int rc;
-    struct pair {
-        long x;
-        int  y;
-    };
-    struct pair pair_matrix[64] = {
-       {0,0}, {0,1}, {0,2}, {0,3}, {0,4}, {0,5}, {0,6}, {0,7},
-       {1,0}, {1,1}, {1,2}, {1,3}, {1,4}, {1,5}, {1,6}, {1,7},
-       {2,0}, {2,1}, {2,2}, {2,3}, {2,4}, {2,5}, {2,6}, {2,7},
-       {3,0}, {3,1}, {3,2}, {3,3}, {3,4}, {3,5}, {3,6}, {3,7},
-       {4,0}, {4,1}, {4,2}, {4,3}, {4,4}, {4,5}, {4,6}, {4,7},
-       {5,0}, {5,1}, {5,2}, {5,3}, {5,4}, {5,5}, {5,6}, {5,7},
-       {6,0}, {6,1}, {6,2}, {6,3}, {6,4}, {6,5}, {6,6}, {6,7},
-       {7,0}, {7,1}, {7,2}, {7,3}, {7,4}, {7,5}, {7,6}, {7,7}};
-    intptr_t pair_size = sizeof(struct point);
+    int input_matrix[64] = {
+        0,  1,  2,  3,  4,  5,  6,  7,
+        8,  9, 10, 11, 12, 13, 14, 15,
+       16, 17, 18, 19, 20, 21, 22, 23,
+       24, 25, 26, 27, 28, 29, 30, 31,
+       32, 33, 34, 35, 36, 37, 38, 39,
+       40, 41, 42, 43, 44, 45, 46, 47,
+       48, 49, 50, 51, 52, 53, 54, 55,
+       56, 57, 58, 59, 60, 61, 62, 63};
     yaksa_type_t hindexed;
     int array_of_blocklengths[7] = {
         1,
         2, 2, 
         4, 4, 4, 4};
     intptr_t array_of_displacements[7] = {
-        9  * pair_size,
-        18 * pair_size, 26 * pair_size,
-        36 * pair_size, 44 * pair_size, 52 * pair_size, 60 * pair_size};
+        9  * sizeof(int),
+        18 * sizeof(int), 26 * sizeof(int),
+        36 * sizeof(int), 44 * sizeof(int), 52 * sizeof(int), 60 * sizeof(int)};
 
     yaksa_init(); /* before any yaksa API is called the library
                      must be initialized */
 
-    rc = yaksa_create_hindexed(7, array_of_blocklengths, array_of_displacements, 
-                               YAKSA_TYPE__LONG_INT, &hindexed);
+    rc = yaksa_create_indexed(7, array_of_blocklengths, array_of_displacements, 
+                              YAKSA_TYPE__INT, &hindexed);
     assert(rc == YAKSA_SUCCESS);
 
     yaksa_free(hindexed);
@@ -538,18 +521,18 @@ int main()
 }
 ```
 
-The following example shows the layout when it is applied to the beginning of `pair_matrix`:
+The following example shows the layout when it is applied to the beginning of `input_matrix`:
 
 ```c
-/* pair_matrix layout */
- (x,x) (x,x) (x,x) (x,x) (x,x) (x,x) (x,x) (x,x)
- (x,x) (1,1) (x,x) (x,x) (x,x) (x,x) (x,x) (x,x)
- (x,x) (x,x) (2,2) (2,3) (x,x) (x,x) (x,x) (x,x)
- (x,x) (x,x) (3,2) (3,3) (x,x) (x,x) (x,x) (x,x)
- (x,x) (x,x) (x,x) (x,x) (4,4) (4,5) (4,6) (4,7)
- (x,x) (x,x) (x,x) (x,x) (5,4) (5,5) (5,6) (5,7)
- (x,x) (x,x) (x,x) (x,x) (6,4) (5,5) (6,6) (6,7)
- (x,x) (x,x) (x,x) (x,x) (7,4) (5,5) (7,6) (7,7)
+/* input_matrix layout */
+  x  x  x  x  x  x  x  x
+  x  9  x  x  x  x  x  x
+  x  x 18 19  x  x  x  x
+  x  x 26 27  x  x  x  x
+  x  x  x  x 36 37 38 39
+  x  x  x  x 44 45 46 47
+  x  x  x  x 52 53 54 55
+  x  x  x  x 60 61 62 63
 ```
 
 ***
@@ -821,6 +804,8 @@ int main()
     return 0;
 }
 ```
+
+In this example the extent of the hvector type is set to `sizeof(int)`. Thus, every vector element in hvector starts after the first integer in the previous vector element (4 bytes), effectively achieving the same interleaving as for the resized example.
 
 ***
 
