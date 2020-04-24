@@ -39,7 +39,6 @@ compilers that are supported are:
 * PGI (>= 9.0)
 * XL (>= 10.0)
 * Sun Studio (>= 12)
-* Elopath (>= 5.0)
 * Fujitsu Softune
 
 Please note that building for CUDA requires a compiler that is
