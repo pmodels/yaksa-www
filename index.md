@@ -42,6 +42,10 @@ compilers that are supported are:
 * Elopath (>= 5.0)
 * Fujitsu Softune
 
+Please note that building for CUDA requires a compiler that is
+compatible with the CUDA installation. More details can be found at
+[https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
+
 ***
 
 <a href="{{ site.github.repository_url }}">{{
