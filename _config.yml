@@ -8,7 +8,7 @@ github:
   repository_name: yaksa
   is_project_page: true
   download_url: https://github.com/pmodels/yaksa/releases
-  support_url: https://github.com/pmodels/yaksa/issues
+  support_url: https://forum.yaksa.org
   documentation_url: https://github.com/pmodels/yaksa/wiki
   owner_url: https://github.com/orgs/pmodels/people
   license_url: githubusercontent.com/pmodels/yaksa/master/COPYRIGHT
