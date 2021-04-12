@@ -29,6 +29,7 @@ Yaksa has been tested on the following CPU architectures:
 For GPU architectures, the following are supported:
 
 * NVIDIA GPU via CUDA
+* Intel GPU via Level Zero
 
 Yaksa supports all C99 and POSIX 2001 compliant systems.  Specific
 compilers that are supported are:
